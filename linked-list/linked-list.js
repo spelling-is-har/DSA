@@ -7,12 +7,23 @@ class LinkedList {
   append(value) {
     const NewNode = new Node();
     NewNode.value = value;
-    // if (this.header.nextNode === null) {
-    //   this.header.nextNode = NewNode;
-    // } else {
     const tail = getTail(this.header);
     tail.nextNode = NewNode;
-    // }
+    return;
+  }
+  prepend(value) {
+    const NewNode = new Node();
+    NewNode.value = value;
+    //checks to see if the headers nextNode is null, if it is then it can just be the first element of the linked list
+    if (this.header.nextNode === null) {
+      this.header.nextNode = NewNode;
+      return;
+    } else {
+      const tempNode = this.header.nextNode;
+      this.header.nextNode = NewNode;
+      NewNode.nextNode = tempNode;
+      return;
+    }
   }
 }
 
@@ -34,6 +45,13 @@ List.append("this is a sixth node");
 
 console.log(List.header);
 
+List.prepend("I'm prepending");
+
+console.log(List.header);
+console.log(List.header.nextNode);
+console.log(List);
+
+//checks to see if an element has a next node, and if it does it continues looping until it finds one that doesnt
 function getTail(obj) {
   if (obj.nextNode === null) {
     return obj;
