@@ -25,6 +25,9 @@ class LinkedList {
       return;
     }
   }
+  size() {
+    return getSize(this.header);
+  }
 }
 
 //Mode class, containing a value property and a nextNode property. These are set to null by default
@@ -46,10 +49,13 @@ List.append("this is a sixth node");
 console.log(List.header);
 
 List.prepend("I'm prepending");
+List.prepend("I'm prepending again");
 
-console.log(List.header);
-console.log(List.header.nextNode);
-console.log(List);
+// console.log(List.header);
+// console.log(List.header.nextNode);
+// console.log(List);
+
+console.log(List.size());
 
 //checks to see if an element has a next node, and if it does it continues looping until it finds one that doesnt
 function getTail(obj) {
@@ -57,4 +63,12 @@ function getTail(obj) {
     return obj;
   }
   return getTail(obj.nextNode);
+}
+
+function getSize(obj, count = 0) {
+  if (obj.nextNode === null) {
+    return count;
+  } else {
+    return getSize(obj.nextNode, ++count);
+  }
 }
