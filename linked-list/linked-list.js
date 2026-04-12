@@ -1,5 +1,13 @@
+//Mode class, containing a value property and a nextNode property. These are set to null by default
+class Node {
+  constructor() {
+    this.value = null;
+    this.nextNode = null;
+  }
+}
+
 //the class of the linked list representing the full list
-class LinkedList {
+export class LinkedList {
   constructor(name) {
     this.name = name;
     this.header = new Node();
@@ -28,34 +36,44 @@ class LinkedList {
   size() {
     return getSize(this.header);
   }
-}
-
-//Mode class, containing a value property and a nextNode property. These are set to null by default
-class Node {
-  constructor() {
-    this.value = null;
-    this.nextNode = null;
+  head() {
+    //return undefined if there is no first item in the list
+    if (this.header.nextNode === null) {
+      return undefined;
+    } else {
+      return this.header.nextNode.value;
+    }
+  }
+  tail() {
+    //if there is no entries in the linked list return undefined
+    if (this.header.nextNode === null) {
+      return undefined;
+    } else {
+      const tailNode = getTail(this.header.nextNode);
+      return tailNode.value;
+    }
+  }
+  atIndex(n) {
+    //return undefined if there are no items in the linked list
+    if (this.header.nextNode === null) {
+      return undefined;
+    }
+    const nodeAtIndex = at(this.header.nextNode, n);
+    return nodeAtIndex.value;
   }
 }
 
-const List = new LinkedList("name");
-List.append("hello nodes");
-List.append("this is a second node");
-List.append("this is a third node");
-List.append("this is a fourth node");
-List.append("this is a fifth node");
-List.append("this is a sixth node");
-
-console.log(List.header);
-
-List.prepend("I'm prepending");
-List.prepend("I'm prepending again");
-
-// console.log(List.header);
-// console.log(List.header.nextNode);
-// console.log(List);
-
-console.log(List.size());
+function at(obj, index) {
+  console.log(obj);
+  console.log(index);
+  if (index === 0) {
+    return obj;
+  } else if (obj.nextNode === null && index > 0) {
+    return undefined;
+  } else {
+    return at(obj.nextNode, --index);
+  }
+}
 
 //checks to see if an element has a next node, and if it does it continues looping until it finds one that doesnt
 function getTail(obj) {
