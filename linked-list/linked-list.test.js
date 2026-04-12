@@ -166,3 +166,52 @@ test("Contains returns true for an item in the list", () => {
   }
   expect(List.contains(2)).toBe(true);
 });
+
+test("findIndex() returns -1 when searching in an empty linked list", () => {
+  const List = new LinkedList();
+
+  expect(List.findIndex("abc")).toBe(-1);
+});
+
+test("findIndex() returns -1 when the item is not in the list", () => {
+  const List = new LinkedList();
+  for (let i = 0; i < 4; i++) {
+    List.append(i);
+  }
+  expect(List.findIndex("abc")).toBe(-1);
+});
+
+test("findIndex() returns 0 when the only item in the list is the item to be searched for", () => {
+  const List = new LinkedList();
+  List.append("abc");
+  expect(List.findIndex("abc")).toBe(0);
+});
+
+test("findIndex() returns index of an item that is in the linked list", () => {
+  const List = new LinkedList();
+  for (let i = 0; i < 7; i++) {
+    List.append(i);
+  }
+  expect(List.findIndex(5)).toBe(5);
+});
+
+test("toString() returns an empty string if the linked list is empty", () => {
+  const List = new LinkedList();
+
+  expect(List.toString()).toBe("");
+});
+
+test("toString() returns a stringified representation of a list with a length of 1", () => {
+  const List = new LinkedList();
+  List.append("abc");
+  expect(List.toString()).toBe("( abc ) -> null");
+});
+
+test("toString() returns a stringified representation of a list with a length of 1", () => {
+  const List = new LinkedList();
+  List.append("abc");
+  List.append("def");
+  List.append("hij");
+
+  expect(List.toString()).toBe("( abc ) -> ( def ) -> ( hij ) -> null");
+});

@@ -77,6 +77,22 @@ export class LinkedList {
       return containsItem(this.header.nextNode, item);
     }
   }
+  findIndex(item) {
+    //return false if there are no items in the linked list
+    if (this.header.nextNode === null) {
+      return -1;
+    } else {
+      return indexOf(this.header.nextNode, item);
+    }
+  }
+  toString() {
+    //return false if there are no items in the linked list
+    if (this.header.nextNode === null) {
+      return "";
+    } else {
+      return listToString(this.header.nextNode);
+    }
+  }
 }
 
 function at(obj, index) {
@@ -124,5 +140,26 @@ function containsItem(obj, item) {
     return false;
   } else {
     return containsItem(obj.nextNode, item);
+  }
+}
+
+function indexOf(obj, item, count = 0) {
+  if (obj.value === item) {
+    return count;
+  }
+  //the object has not been found and -1 is returned
+  else if (obj.nextNode === null) {
+    return -1;
+  } else {
+    return indexOf(obj.nextNode, item, ++count);
+  }
+}
+
+function listToString(obj, string = "") {
+  if (obj.nextNode === null) {
+    return (string += `( ${obj.value} ) -> null`);
+  } else {
+    string += `( ${obj.value} ) -> `;
+    return listToString(obj.nextNode, string);
   }
 }
