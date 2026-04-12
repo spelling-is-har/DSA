@@ -61,11 +61,25 @@ export class LinkedList {
     const nodeAtIndex = at(this.header.nextNode, n);
     return nodeAtIndex.value;
   }
+  pop() {
+    //return undefined if there are no items in the linked list
+    if (this.header.nextNode === null) {
+      return undefined;
+    } else {
+      return removeLastNode(this.header);
+    }
+  }
+  contains(item) {
+    //return false if there are no items in the linked list
+    if (this.header.nextNode === null) {
+      return false;
+    } else {
+      return containsItem(this.header.nextNode, item);
+    }
+  }
 }
 
 function at(obj, index) {
-  console.log(obj);
-  console.log(index);
   if (index === 0) {
     return obj;
   } else if (obj.nextNode === null && index > 0) {
@@ -88,5 +102,27 @@ function getSize(obj, count = 0) {
     return count;
   } else {
     return getSize(obj.nextNode, ++count);
+  }
+}
+
+function removeLastNode(obj) {
+  if (obj.nextNode.nextNode === null) {
+    const nextNodeValue = obj.nextNode.value;
+    obj.nextNode = null;
+    return nextNodeValue;
+  } else {
+    return removeLastNode(obj.nextNode);
+  }
+}
+
+function containsItem(obj, item) {
+  if (obj.value === item) {
+    return true;
+  }
+  //If the end of the linked list is reached without finding a match then return false
+  else if (obj.nextNode === null) {
+    return false;
+  } else {
+    return containsItem(obj.nextNode, item);
   }
 }

@@ -116,24 +116,53 @@ test("atIndex(0) returns undefined if an element is not there", () => {
   expect(List.atIndex(0)).toBe(undefined);
 });
 
-// test("Returns array of one", () => {
-//   expect(merge([73])).toStrictEqual([73]);
-// });
+test("Trying to pop() an empty list returns undefined", () => {
+  const List = new LinkedList();
 
-// test("Returns array that is already sorted", () => {
-//   expect(merge([1, 2, 3, 4])).toStrictEqual([1, 2, 3, 4]);
-// });
+  expect(List.pop()).toBe(undefined);
+});
 
-// test("Sorts array correctly", () => {
-//   expect(merge([3, 2, 1, 13, 8, 5, 0, 1])).toStrictEqual([
-//     0, 1, 1, 2, 3, 5, 8, 13,
-//   ]);
-// });
+test("pop() removes the last element on a linked list of 1", () => {
+  const List = new LinkedList();
 
-// test("Sorts an array of an odd length", () => {
-//   expect(merge([3, 2, 1, 13, 8, 5, 1])).toStrictEqual([1, 1, 2, 3, 5, 8, 13]);
-// });
+  List.append(1);
 
-// test("Sorts array of 3 digit numbers correctly", () => {
-//   expect(merge([105, 79, 100, 110])).toStrictEqual([79, 100, 105, 110]);
-// });
+  expect(List.pop()).toBe(1);
+  expect(List.tail()).toBe(undefined);
+});
+
+test("pop() removes the last element on a list longer than 1", () => {
+  const List = new LinkedList();
+
+  List.append(1);
+  List.append(2);
+  List.append(3);
+  List.append(4);
+
+  expect(List.pop()).toBe(4);
+  expect(List.tail()).toBe(3);
+});
+
+test("Contains returns false for an empty linked list", () => {
+  const List = new LinkedList();
+
+  expect(List.contains("abc")).toBe(false);
+});
+
+test("Contains returns false for an item not in the list", () => {
+  const List = new LinkedList();
+
+  for (let i = 0; i < 4; i++) {
+    List.append(i);
+  }
+  expect(List.contains("abc")).toBe(false);
+});
+
+test("Contains returns true for an item in the list", () => {
+  const List = new LinkedList();
+
+  for (let i = 0; i < 4; i++) {
+    List.append(i);
+  }
+  expect(List.contains(2)).toBe(true);
+});
