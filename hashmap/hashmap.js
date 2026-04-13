@@ -26,6 +26,11 @@ export class HashMap {
   }
 }
 
+//TO DO: I need to copy my linked list implimentation in to its own file
+//so i can edit it freely to be used in a hashmap. I need the ability to
+//search for objects using their key and i need the ability to update
+//that objects value. I also need to to handle objects, rather than primitives
+
 // const map = new HashMap();
 // const key = "jon";
 // const value = "loves coding so much";
