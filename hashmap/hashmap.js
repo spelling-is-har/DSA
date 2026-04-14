@@ -1,4 +1,4 @@
-import { LinkedList } from "../linked-list/linked-list.js";
+import { LinkedListHash } from "./linked-list.js";
 
 export class HashMap {
   constructor() {
@@ -22,7 +22,7 @@ export class HashMap {
   }
   set(key, value) {
     const hash = this.hash(key);
-    this.buckets[hash].append({ key, value });
+    this.buckets[hash].append(key, value);
   }
 }
 
@@ -42,7 +42,7 @@ export class HashMap {
 function createLinkedLists(capacity) {
   const arr = [];
   for (let i = 0; i < capacity; i++) {
-    const list = new LinkedList();
+    const list = new LinkedListHash();
     arr.push(list);
   }
   return arr;
