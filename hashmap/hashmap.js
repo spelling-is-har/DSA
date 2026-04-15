@@ -6,7 +6,9 @@ export class HashMap {
     this.capacity = 16;
     this.buckets = createLinkedLists(this.capacity);
   }
-  //Please note, when using this hash function
+  getBucketLength() {
+    return this.buckets.length
+  }
   hash(key) {
     let hashCode = 0;
 
@@ -89,6 +91,20 @@ export class HashMap {
       arr.push(...bucket.values())
     })
     return arr
+  }
+  remove(key) {
+    const hash = this.hash(key);
+
+    //checks that the hash index is in bounds
+    if (hash < 0 || hash >= this.buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    }
+    const returnValue = this.buckets[hash].remove(key)
+    if (returnValue === false) {
+      return false
+    } else {
+      return true
+    }
   }
 }
 

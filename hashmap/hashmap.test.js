@@ -219,3 +219,27 @@ test("keys() returns an array of keys", () => {
 
   expect(hashMap.values()).toStrictEqual(arr);
 });
+
+test("Hopefully this works, this is happy path", () => {
+  const hashMap = new HashMap();
+
+  for (let i = 0; i < 10; i++) {
+    hashMap.set("key" + i, "value" + i);
+  }
+  expect(hashMap.has("key0")).toBe(true);
+  expect(hashMap.has("invalidKey")).toBe(false);
+  expect(hashMap.remove("key0")).toBe(true);
+  expect(hashMap.has("key0")).toBe(false);
+
+  hashMap.set("key1", "updated value")
+  expect(hashMap.get("key1")).toBe("updated value");
+
+  for (let i = 0; i < 100; i++) {
+    hashMap.set("key" + i, "value" + i);
+  }
+  expect(hashMap.length()).toBe(100);
+  expect(hashMap.has("key23")).toBe(true);
+  
+  expect(hashMap.getBucketLength()).toBe(256);
+
+});
