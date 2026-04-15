@@ -99,3 +99,16 @@ test("entries() will return an array of arrays of entries", () => {
     [ 'key9', 'value9' ]
   ]);
 });
+
+test("clear() will clear a populated hashmap", () => {
+  const hashMap = new HashMap();
+  for (let i = 0; i < 10; i++) {
+    hashMap.set("key" + i, "value" + i);
+  }
+
+  hashMap.clear()
+
+  for (let i = 0; i < 10; i++) {
+    expect(hashMap.has("key" + i)).toBe(false);
+  }
+});

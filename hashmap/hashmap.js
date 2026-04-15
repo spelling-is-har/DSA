@@ -53,13 +53,31 @@ export class HashMap {
   entries() {
     return getEntries(this.buckets)
   }
+  clear() {
+    this.buckets.forEach((bucket) => {
+      bucket.clear()
+    })
+  }
+  doubleBuckets() {
+    const arr = this.entries()
+    this.clear()
+    this.capacity *= 2
+    this.buckets = createLinkedLists(this.capacity)
+
+    for (let i = 0; i < arr.length; i++) {
+      this.set(arr[i][0], arr[i][1])
+    }
+  }
 }
 
-// const map = new HashMap()
-//  for (let i = 0; i < 10; i++) {
-//     map.set("key" + i, "value" + i);
-//  }
-// map.entries()
+const map = new HashMap()
+ for (let i = 0; i < 10; i++) {
+    map.set("key" + i, "value" + i);
+ }
+console.log(map.buckets)
+console.log("lets double")
+map.doubleBuckets()
+console.log(map.buckets)
 
 
 function getEntries(buckets) {
