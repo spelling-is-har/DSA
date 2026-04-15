@@ -22,22 +22,64 @@ export class HashMap {
   }
   set(key, value) {
     const hash = this.hash(key);
+
+    //checks that the hash index is in bounds
+    if (hash < 0 || hash >= this.buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    }
     this.buckets[hash].append(key, value);
+  }
+  get(key) {
+    const hash = this.hash(key)
+
+    //checks that the hash index is in bounds
+    if (hash < 0 || hash >= this.buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    }
+
+    return this.buckets[hash].get(key)
+  }
+  has(key) {
+    const hash = this.hash(key) 
+
+    //checks that the hash index is in bounds
+    if (hash < 0 || hash >= this.buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    }
+
+    if (this.buckets[hash].get(key) === null) return false
+    if (this.buckets[hash].get(key)) return true
+  }
+  entries() {
+    return getEntries(this.buckets)
   }
 }
 
-//TO DO: I need to copy my linked list implimentation in to its own file
-//so i can edit it freely to be used in a hashmap. I need the ability to
-//search for objects using their key and i need the ability to update
-//that objects value. I also need to to handle objects, rather than primitives
+// const map = new HashMap()
+//  for (let i = 0; i < 10; i++) {
+//     map.set("key" + i, "value" + i);
+//  }
+// map.entries()
 
-// const map = new HashMap();
-// const key = "jon";
-// const value = "loves coding so much";
-// const hashedKey = map.hash(key);
 
-// map.set(key, value);
-// console.log(map.buckets[hashedKey].tail());
+function getEntries(buckets) {
+  const arr = []
+  buckets.forEach((bucket) => {
+    arr.push(...bucket.entries())
+  })
+  return arr
+}
+
+//the hashmap needs to double in size when there are more entries than loadFactor * currentCapacity
+export function checkCapacity(loadFactor, currentCapacity, entries) {
+  const x = loadFactor * currentCapacity
+  if (entries > x) {
+    return true
+  } else {
+    return false
+  }
+
+ }
 
 function createLinkedLists(capacity) {
   const arr = [];

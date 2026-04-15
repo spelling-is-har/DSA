@@ -206,21 +206,21 @@ function getTail(obj) {
   return getTail(obj.nextNode);
 }
 
-function removeLastNode(obj) {
-  if (obj.nextNode.nextNode === null) {
-    const nextNodeValue = obj.nextNode.value;
-    obj.nextNode = null;
-    return nextNodeValue;
-  } else {
-    return removeLastNode(obj.nextNode);
-  }
-}
+// function removeLastNode(obj) {
+//   if (obj.nextNode.nextNode === null) {
+//     const nextNodeValue = obj.nextNode.value;
+//     obj.nextNode = null;
+//     return nextNodeValue;
+//   } else {
+//     return removeLastNode(obj.nextNode);
+//   }
+// }
 
-function listToString(obj, string = "") {
-  if (obj.nextNode === null) {
-    return (string += `( ${obj.value} ) -> null`);
-  } else {
-    string += `( ${obj.value} ) -> `;
-    return listToString(obj.nextNode, string);
-  }
-}
+// function listToString(obj, string = "") {
+//   if (obj.nextNode === null) {
+//     return (string += `( ${obj.value} ) -> null`);
+//   } else {
+//     string += `( ${obj.value} ) -> `;
+//     return listToString(obj.nextNode, string);
+//   }
+// }
