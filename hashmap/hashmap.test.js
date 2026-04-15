@@ -142,5 +142,32 @@ test("length() will be 0 after clearing", () => {
   hashMap.clear()
 
   expect(hashMap.length()).toBe(0);
-
 });
+
+test("buckets are doubled when there are 13 entries", () => {
+  const hashMap = new HashMap();
+
+  for (let i = 0; i < 12; i++) {
+    hashMap.set("key" + i, "value" + i);
+  }
+  expect(hashMap.capacity).toBe(16);
+
+  hashMap.set("doubleBucketKey", "doubleBucketValue")
+
+  expect(hashMap.capacity).toBe(32);
+});
+
+test("buckets maintain the same entries after doubling", () => {
+  const hashMap = new HashMap();
+
+  for (let i = 0; i < 12; i++) {
+    hashMap.set("key" + i, "value" + i);
+    expect(hashMap.has("key" + i)).toBe(true); 
+  }
+  hashMap.set("key12", "value12")
+
+  for (let i = 0; i < 13; i++) {
+    expect(hashMap.has("key" + i)).toBe(true); 
+  }
+});
+

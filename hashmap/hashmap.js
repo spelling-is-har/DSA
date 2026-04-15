@@ -25,6 +25,9 @@ export class HashMap {
       throw new Error("Trying to access index out of bounds");
     }
     this.buckets[hash].append(key, value);
+    
+    //checks to see if the buckets need doubling, and doubles them if they do
+    if(checkCapacity(this.loadFactor, this.capacity, this.length())) this.doubleBuckets()
   }
   get(key) {
     const hash = this.hash(key)
@@ -58,7 +61,6 @@ export class HashMap {
   length() {
     let length = 0
     this.buckets.forEach((bucket) => {
-      console.log(length)
       length += bucket.length()
     })
     return length
