@@ -17,9 +17,6 @@ export class HashMap {
 
     return hashCode % this.capacity;
   }
-  getArrayLength() {
-    return this.buckets.length;
-  }
   set(key, value) {
     const hash = this.hash(key);
 
@@ -58,6 +55,15 @@ export class HashMap {
       bucket.clear()
     })
   }
+  length() {
+    let length = 0
+    this.buckets.forEach((bucket) => {
+      console.log(length)
+      length += bucket.length()
+    })
+    return length
+  }
+
   doubleBuckets() {
     const arr = this.entries()
     this.clear()
@@ -70,14 +76,14 @@ export class HashMap {
   }
 }
 
-const map = new HashMap()
- for (let i = 0; i < 10; i++) {
-    map.set("key" + i, "value" + i);
- }
-console.log(map.buckets)
-console.log("lets double")
-map.doubleBuckets()
-console.log(map.buckets)
+// const map = new HashMap()
+//  for (let i = 0; i < 10; i++) {
+//     map.set("key" + i, "value" + i);
+//  }
+// console.log(map.buckets)
+// console.log("lets double")
+// map.doubleBuckets()
+// console.log(map.buckets)
 
 
 function getEntries(buckets) {

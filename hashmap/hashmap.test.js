@@ -112,3 +112,35 @@ test("clear() will clear a populated hashmap", () => {
     expect(hashMap.has("key" + i)).toBe(false);
   }
 });
+
+test("length() will be 0 on an empty hashMap", () => {
+  const hashMap = new HashMap();
+
+  expect(hashMap.length()).toBe(0);
+
+});
+
+
+test("length() will be 10 on an hashMap of 10", () => {
+  const hashMap = new HashMap();
+
+  for (let i = 0; i < 10; i++) {
+    hashMap.set("key" + i, "value" + i);
+  }
+
+  expect(hashMap.length()).toBe(10);
+
+});
+
+test("length() will be 0 after clearing", () => {
+  const hashMap = new HashMap();
+
+  for (let i = 0; i < 10; i++) {
+    hashMap.set("key" + i, "value" + i);
+  }
+
+  hashMap.clear()
+
+  expect(hashMap.length()).toBe(0);
+
+});
