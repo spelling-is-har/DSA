@@ -27,6 +27,17 @@ test("set() will set a key and value when the hashmap has no entries", () => {
   expect(hashMap.buckets[hashedKey].tail()).toBe("value");
 });
 
+test("set() will update a value when the key is already in the hashmap", () => {
+  const hashMap = new HashMap();
+  const hashedKey = hashMap.hash("key");
+
+  hashMap.set("key", "value");
+  expect(hashMap.buckets[hashedKey].tail()).toBe("value");
+
+    hashMap.set("key", "value2");
+  expect(hashMap.buckets[hashedKey].tail()).toBe("value2");
+});
+
 test("get() will return null if the key is not in an empty linked list", () => {
   const hashMap = new HashMap();
   const hashedKey = hashMap.hash("key");
@@ -171,3 +182,40 @@ test("buckets maintain the same entries after doubling", () => {
   }
 });
 
+test("keys() returns an empty array on an empty hashmap", () => {
+  const hashMap = new HashMap();
+
+  expect(hashMap.keys()).toStrictEqual([]);
+});
+
+test("keys() returns an array of keys", () => {
+  const hashMap = new HashMap();
+
+  const arr =[] 
+
+  for (let i = 0; i < 10; i++) {
+    hashMap.set("key" + i, "value" + i);
+    arr.push("key" + i)
+  }
+
+  expect(hashMap.keys()).toStrictEqual(arr);
+});
+
+test("values() returns an empty array on an empty hashmap", () => {
+  const hashMap = new HashMap();
+
+  expect(hashMap.values()).toStrictEqual([]);
+});
+
+test("keys() returns an array of keys", () => {
+  const hashMap = new HashMap();
+
+  const arr =[] 
+
+  for (let i = 0; i < 10; i++) {
+    hashMap.set("key" + i, "value" + i);
+    arr.push("value" + i)
+  }
+
+  expect(hashMap.values()).toStrictEqual(arr);
+});
