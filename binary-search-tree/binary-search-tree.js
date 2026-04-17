@@ -1,8 +1,17 @@
-import { arrayBuffer } from "node:stream/consumers"
+// function supplied by the odin project for printing all the nodes in the BST
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+  if (node === null || node === undefined) {
+    return;
+  }
+
+  prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
+  prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+}
 
 class Node {
-    constructor() {
-        this.value = null
+    constructor(value) {
+        this.value = value ? value : null
         this.left = null
         this.right = null
     }
@@ -24,6 +33,44 @@ export class Tree {
         // if (this.root.left === null && this.root.right === null) return false
         return containsValue(this.root, value)
     }
+    insert(value) {
+        insertValue(this.root, value)
+    }
+    values() {
+        const arr = getValues(this.root)
+        console.log(arr)
+        return arr.sort((a, b) => a - b)
+    }
+}
+
+function getValues(root, arr = []) {
+    arr.push(root.value)
+    if (root.left === null && root.right === null) {
+        return arr
+    }
+
+    if (root.left != null) {
+        getValues(root.left, arr)
+    }
+    if (root.right != null) {
+        getValues(root.right, arr)
+    }
+    return arr
+}
+
+function insertValue(root, value) {
+    // If the tree is empty, return a new node
+    if (root === null) return new Node(value);
+    if (root.value === value) return
+
+    // Otherwise, recur down the tree
+    if (value < root.value)
+        root.left = insertValue(root.left, value);
+    else
+        root.right = insertValue(root.right, value);
+
+    // Return the (unchanged) node pointer
+    return root;
 }
 
 function containsValue(root, value) {
@@ -80,17 +127,3 @@ export function sanitiseArr(arr) {
     return noDuplicatesArr.sort((a,b) => a - b)
 }
 
-// function supplied by the odin project for printing all the nodes in the BST
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-  if (node === null || node === undefined) {
-    return;
-  }
-
-  prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
-  prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-}
-
-// const tree = new Tree()
-// tree.print()
-// // console.log(tree.root)

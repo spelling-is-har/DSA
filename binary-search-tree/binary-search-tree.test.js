@@ -49,3 +49,43 @@ test("contains() returns true if there is a match in a bigger tree with exactly 
     const tree = new Tree([1,2,3,4,5])
     expect(tree.contains(5)).toBe(true)
 })
+
+test("values() returns an array of with one value for a BST with one value", () => {
+    const tree = new Tree([1])
+    expect(tree.values()).toStrictEqual([1])
+})
+
+test("values() returns an array of with multiple values", () => {
+    const tree = new Tree([1,2,3,4,5,6,7,8,9,10])
+    expect(tree.values()).toStrictEqual([1,2,3,4,5,6,7,8,9,10])
+})
+
+test("insert() inserts a value at the end of the tree", () => {
+    const tree = new Tree([1,2,3])
+    expect(tree.contains(4)).toBe(false)
+    tree.insert(4)
+    expect(tree.contains(4)).toBe(true)
+})
+
+
+test("insert() inserts a value at the end of the tree", () => {
+    const tree = new Tree([1,2,3])
+    expect(tree.contains(4)).toBe(false)
+    tree.insert(4)
+    expect(tree.contains(4)).toBe(true)
+})
+
+test("insert() inserts a value in the middle of the tree", () => {
+    const tree = new Tree([1,2,3,5,6,7])
+    expect(tree.contains(4)).toBe(false)
+    tree.insert(4)
+    expect(tree.contains(4)).toBe(true)
+})
+
+//can only be tested once i have a method for looking at the whole tree
+test("insert() does not insert duplicate values", () => {
+    const tree = new Tree([1,2,3,4,5,6,7])
+    tree.insert(4)
+
+    expect(tree.values()).toStrictEqual([1,2,3,4,5,6,7])
+})
