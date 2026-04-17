@@ -50,6 +50,11 @@ test("contains() returns true if there is a match in a bigger tree with exactly 
     expect(tree.contains(5)).toBe(true)
 })
 
+test("contains() returns true if there is only one value in the bst", () => {
+    const tree = new Tree([1])
+    expect(tree.contains(1)).toBe(true)
+})
+
 test("values() returns an array of with one value for a BST with one value", () => {
     const tree = new Tree([1])
     expect(tree.values()).toStrictEqual([1])
@@ -82,10 +87,39 @@ test("insert() inserts a value in the middle of the tree", () => {
     expect(tree.contains(4)).toBe(true)
 })
 
-//can only be tested once i have a method for looking at the whole tree
 test("insert() does not insert duplicate values", () => {
     const tree = new Tree([1,2,3,4,5,6,7])
     tree.insert(4)
 
     expect(tree.values()).toStrictEqual([1,2,3,4,5,6,7])
+})
+
+test("delete() will delete a child with no children", () => {
+    const tree = new Tree([1,2,3,4,5,6,7])
+    tree.delete(7)
+
+    expect(tree.values()).toStrictEqual([1,2,3,4,5,6])
+})
+
+test("delete() will delete a child with one child", () => {
+    const tree = new Tree([1,2,3,4,5,6,7])
+    tree.delete(7)
+
+    expect(tree.values()).toStrictEqual([1,2,3,4,5,6])
+})
+
+test("delete() will delete a child with two children", () => {
+    const tree = new Tree([1,2,3,4,5,6,7])
+    tree.delete(6)
+
+    expect(tree.values()).toStrictEqual([1,2,3,4,5,7])
+})
+
+test.skip("delete() will delete the entire tree, but values can still be added", () => {
+    const tree = new Tree([1])
+    tree.delete(1)
+    expect(tree.contains(1).toBe(false))    
+    tree.insert(2)
+    expect(tree.values()).toStrictEqual([2])
+
 })

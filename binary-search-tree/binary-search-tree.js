@@ -29,22 +29,68 @@ export class Tree {
         return buildTree(arr)
     }
     contains(value) {
-        //if the BST is empty do not search is and return false
-        // if (this.root.left === null && this.root.right === null) return false
         return containsValue(this.root, value)
     }
     insert(value) {
-        insertValue(this.root, value)
+        this.root = insertValue(this.root, value)
     }
+    //returns all the values in the BST in a sorted array
     values() {
         const arr = getValues(this.root)
-        console.log(arr)
         return arr.sort((a, b) => a - b)
+    }
+    delete(value) {
+        this.root = deleteValue(this.root, value)
     }
 }
 
+// const tree =  new Tree([1,2,3,4,5,6,7,8])
+// tree.print()
+// tree.delete(1)
+// tree.insert(3)
+// tree.print()
+
+
+// Get inorder successor (smallest in right subtree)
+function getSuccessor(current) {
+    current = current.right;
+    while (current !== null && current.left !== null)
+        current = current.left;
+    return current;
+}
+
+// Delete a node that matches a value
+function deleteValue(root, value) {
+    if (root === null)
+        return null
+
+    // if the value is smaller than the current root then traverse left
+    if (root.value > value)
+        root.left = deleteValue(root.left, value);
+    //if value is bigger than current root than traverse right
+    else if (root.value < value)
+        root.right = deleteValue(root.right, value);
+    //else the value must match the current root as it is not bigger or smaller
+    else {
+        //check to see if node has children
+        if (root.left === null)
+            return root.right;
+        if (root.right === null)
+            return root.left;
+
+        // Node with 2 children
+        const successor = getSuccessor(root);
+        root.value = successor.value;
+        root.right = deleteValue(root.right, successor.value);
+    }
+    return root;
+}
+
 function getValues(root, arr = []) {
-    arr.push(root.value)
+    // arr.push(root.value)
+    if (root.value) {
+        arr.push(root.value)
+    }
     if (root.left === null && root.right === null) {
         return arr
     }
@@ -55,6 +101,7 @@ function getValues(root, arr = []) {
     if (root.right != null) {
         getValues(root.right, arr)
     }
+    console.log(arr)
     return arr
 }
 
@@ -92,9 +139,6 @@ function containsValue(root, value) {
         } else {
             return containsValue(root.left, value)
         }
-    //returns false if the value cannot be found
-    } else {
-        return false
     }
 }
 
@@ -126,4 +170,3 @@ export function sanitiseArr(arr) {
     const noDuplicatesArr = [... new Set(arr)]
     return noDuplicatesArr.sort((a,b) => a - b)
 }
-
