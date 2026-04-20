@@ -64,7 +64,119 @@ export class Tree {
     }
     levelOrderForEach(callback) {
         if (typeof callback != "function") {
-            throw new Error("levelOrderFunction only accepts callback functions")
+            throw new Error("levelOrderForEach only accepts callback functions")
+        } else  if (this.root === null) {
+            return
+        } else {
+            levelOrderForEachFunction(this.root, callback)
+        }
+    }
+    inOrderForEach(callback) {
+        if (typeof callback != "function") {
+            throw new Error("inOrderForEach only accepts callback functions")
+        } else  if (this.root === null) {
+            return
+        } else {
+            inOrderForEachFunction(this.root, callback)
+        }
+    }
+    preOrderForEach(callback) {
+        if (typeof callback != "function") {
+            throw new Error("preOrderFunction only accepts callback functions")
+        } else  if (this.root === null) {
+            return
+        } else {
+            preOrderForEachFunction(this.root, callback)
+        }       
+    }
+    postOrderForEach(callback) {
+        if (typeof callback != "function") {
+            throw new Error("postOrderFunction only accepts callback functions")
+        } else  if (this.root === null) {
+            return
+        } else {
+            postOrderForEachFunction(this.root, callback)
+        }              
+    }
+    depth(value) {
+        //case where BST has no entries
+        if (this.root == null) return undefined
+        return getDepth(this.root, value)
+    }
+    //todo, write height method
+    //i currently think I should find the item, then continue iterating down the
+    //BST, both left and right. Then compare left and right heights 
+}
+
+function getDepth(root, value, count = 0) {
+    //case where this root equals the value
+    if (root.value === value) {
+        return count
+    }
+    //case where the value is smaller than root
+    if (value < root.value && root.left != null) {
+        return getDepth(root.left, value, ++count)
+    //case where the value is bigger than root
+    } else if (value > root.value && root.right != null) {
+        return getDepth(root.right, value, ++count)
+
+    } 
+    
+    return undefined
+}
+
+function postOrderForEachFunction(root, callback) {
+    //base case if root is null
+    if (root === null) return
+
+    postOrderForEachFunction(root.left, callback)
+    postOrderForEachFunction(root.right, callback)
+    root.value = callback(root.value)
+
+    return
+}
+
+function inOrderForEachFunction(root, callback) {
+    //base case if root is null
+    if (root === null) return
+
+    preOrderForEachFunction(root.left, callback)
+    root.value = callback(root.value)
+    preOrderForEachFunction(root.right, callback)
+
+    return
+}
+
+function preOrderForEachFunction(root, callback) {
+    //base case if the root is null
+    if (root === null) return 
+    
+    //applies the callback to the value
+    root.value = callback(root.value)
+
+    preOrderForEachFunction(root.left, callback)
+    preOrderForEachFunction(root.right, callback)
+
+    return
+}
+
+function levelOrderForEachFunction(root, callback) {
+    if (root === null) return
+
+    const queue = []
+    queue.push(root)
+
+    //while there are elements in the queue, the loop runs
+    while (queue.length > 0) {
+        //removes the first element from the queue
+        const front = queue.shift()
+        //calls the callback function and alters the value in place
+        front.value = callback(front.value)
+        if (front.left != null) {
+            queue.push(front.left)
+        }
+        if (front.right != null) {
+            queue.push(front.right)
         }
     }
 }

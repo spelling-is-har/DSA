@@ -1,4 +1,5 @@
 import { Tree, sanitiseArr } from "./binary-search-tree.js";
+import {jest} from '@jest/globals'
 
 test("HashMap is defined", () => {
   expect(Tree).toBeDefined();
@@ -136,9 +137,7 @@ test("delete() will delete a child with two children", () => {
 
 test("delete() will delete a child with two children", () => {
     const tree = new Tree([1,2,3,4,5,6,7])
-    console.log(tree.values())
     tree.delete(4)
-    console.log(tree.values())
     expect(tree.values()).toStrictEqual([1,2,3,5,6,7])
 })
 
@@ -149,7 +148,6 @@ test("delete() will delete the entire tree, but values can still be added", () =
     expect(tree.contains(1)).toBe(false)    
     tree.insert(2)
     expect(tree.values()).toStrictEqual([2])
-
 })
 
 test("levelOrderForEach throws Error if called without a callback function", () => {
@@ -157,5 +155,166 @@ test("levelOrderForEach throws Error if called without a callback function", () 
         const tree = new Tree([1,2,3])
         tree.levelOrderForEach("abc")
     }).toThrow(Error)
-
 });
+
+test("levelOrderForEach() uses the callback and mutates values in place", () => {
+
+    function callback(value) {
+        return ++value 
+    }
+
+    const tree = new Tree([1,2,3,4,5,6,7])
+
+    tree.levelOrderForEach(callback)
+    expect(tree.values()).toStrictEqual([2,3,4,5,6,7,8])
+})
+
+test("levelOrderForEach() can console log every element", () => {
+
+    function callback(value) {
+        console.log(value)
+    }
+
+    const tree = new Tree([1,2,3])
+
+    const consoleSpy = jest.spyOn(console, "log")
+
+    tree.levelOrderForEach(callback)
+
+    expect(consoleSpy.mock.calls[0]).toStrictEqual([2])
+    expect(consoleSpy.mock.calls[1]).toStrictEqual([1])
+    expect(consoleSpy.mock.calls[2]).toStrictEqual([3])
+})
+
+test("preOrderForEach() can console log every element", () => {
+
+    function callback(value) {
+        console.log(value)
+    }
+
+    const tree = new Tree([1,2,3])
+
+    const consoleSpy = jest.spyOn(console, "log")
+
+    tree.preOrderForEach(callback)
+
+    expect(consoleSpy.mock.calls[0]).toStrictEqual([2])
+    expect(consoleSpy.mock.calls[1]).toStrictEqual([1])
+    expect(consoleSpy.mock.calls[2]).toStrictEqual([3])
+})
+
+test("preOrderForEach() uses the callback and mutates values in place", () => {
+
+    function callback(value) {
+        return ++value 
+    }
+
+    const tree = new Tree([1,2,3,4,5,6,7])
+
+    tree.preOrderForEach(callback)
+    expect(tree.values()).toStrictEqual([2,3,4,5,6,7,8])
+})
+
+
+
+test("preOrderForEach() throws Error if called without a callback function", () => {
+    expect(() => {
+        const tree = new Tree([1,2,3])
+        tree.preOrderForEach("abc")
+    }).toThrow(Error)
+});
+
+test("inOrderForEach() throws Error if called without a callback function", () => {
+    expect(() => {
+        const tree = new Tree([1,2,3])
+        tree.inOrderForEach("abc")
+    }).toThrow(Error)
+});
+
+test("inOrderForEach() can console log every element", () => {
+
+    function callback(value) {
+        console.log(value)
+    }
+
+    const tree = new Tree([1,2,3])
+
+    const consoleSpy = jest.spyOn(console, "log")
+
+    tree.inOrderForEach(callback)
+
+    expect(consoleSpy.mock.calls[0]).toStrictEqual([2])
+    expect(consoleSpy.mock.calls[1]).toStrictEqual([1])
+    expect(consoleSpy.mock.calls[2]).toStrictEqual([3])
+})
+
+test("inOrderForEach() uses the callback and mutates values in place", () => {
+
+    function callback(value) {
+        return ++value 
+    }
+
+    const tree = new Tree([1,2,3,4,5,6,7])
+
+    tree.inOrderForEach(callback)
+    expect(tree.values()).toStrictEqual([2,3,4,5,6,7,8])
+})
+
+test("postOrderForEach() throws Error if called without a callback function", () => {
+    expect(() => {
+        const tree = new Tree([1,2,3])
+        tree.postOrderForEach("abc")
+    }).toThrow(Error)
+});
+
+test("postOrderForEach() can console log every element", () => {
+
+    function callback(value) {
+        console.log(value)
+    }
+
+    const tree = new Tree([1,2,3])
+
+    const consoleSpy = jest.spyOn(console, "log")
+
+    tree.postOrderForEach(callback)
+
+    expect(consoleSpy.mock.calls[0]).toStrictEqual([2])
+    expect(consoleSpy.mock.calls[1]).toStrictEqual([1])
+    expect(consoleSpy.mock.calls[2]).toStrictEqual([3])
+})
+
+test("postOrderForEach() uses the callback and mutates values in place", () => {
+
+    function callback(value) {
+        return ++value 
+    }
+
+    const tree = new Tree([1,2,3,4,5,6,7])
+
+    tree.inOrderForEach(callback)
+    expect(tree.values()).toStrictEqual([2,3,4,5,6,7,8])
+})
+
+test("depth() returns undefined if the value is not in the BST", () => {
+    const tree = new Tree([1,2,3,4,5,6,7])
+    expect(tree.depth(8)).toBe(undefined)
+})
+
+test("depth() returns 0 is the root of the BST", () => {
+    const tree = new Tree([1,2,3])
+    expect(tree.depth(2)).toBe(0)
+})
+
+test("depth() returns 1 if the value has a depth of 1", () => {
+    const tree = new Tree([1,2,3])
+    expect(tree.depth(3)).toBe(1)
+})
+
+test("depth() returns 1 if the value has a depth of 1", () => {
+    const tree = new Tree([1,2,3,4,5,6,7,8,9,10,11,12,13])
+    expect(tree.depth(13)).toBe(3)
+})
+
+
+//todo, write height method
