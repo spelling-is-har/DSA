@@ -316,5 +316,17 @@ test("depth() returns 1 if the value has a depth of 1", () => {
     expect(tree.depth(13)).toBe(3)
 })
 
+test("height() returns undefined if the value is not in the BST", () => {
+    const tree = new Tree([1,2,3,4,5,6,7])
+    expect(tree.height(8)).toBe(undefined)
+})
 
-//todo, write height method
+test("height() returns 1 if there is a height of 1 ", () => {
+    const tree = new Tree([1,2,3])
+    expect(tree.height(2)).toBe(1)
+})
+
+test("height() returns 1 if there is a height of 1 ", () => {
+    const tree = new Tree([1,2,3,4,5,6,7,8,9,10,11,12,13])
+    expect(tree.height(10)).toBe(2)
+})

@@ -103,9 +103,45 @@ export class Tree {
         if (this.root == null) return undefined
         return getDepth(this.root, value)
     }
-    //todo, write height method
-    //i currently think I should find the item, then continue iterating down the
-    //BST, both left and right. Then compare left and right heights 
+    height(value) {
+        //case where BST has no entries
+        if (this.root == null) return undefined
+        return getHeight(this.root, value)    
+    }
+}
+
+// const tree = new Tree([1,2,3,4,5,6,7,8,9,10,11,12,13])
+// tree.print()
+
+
+function getHeightAfterMatch(root) {
+    if (root === null) return -1
+
+    //get the height of the left and right subtrees
+    const left = getHeightAfterMatch(root.left)
+    const right = getHeightAfterMatch(root.right)
+
+    return Math.max(left, right) + 1
+}
+
+function getHeight(root, value) {
+    //case if there is a match
+    if (root.value === value) {
+        return getHeightAfterMatch(root)
+    }
+
+    //case where the value is smaller than root
+    if (value < root.value && root.left != null) {
+        return getHeight(root.left, value)
+    //case where the value is bigger than root
+    } else if (value > root.value && root.right != null) {
+        return getHeight(root.right, value)
+
+    } 
+    
+    //case where the value was not found
+    return undefined
+
 }
 
 function getDepth(root, value, count = 0) {
