@@ -151,3 +151,11 @@ test("delete() will delete the entire tree, but values can still be added", () =
     expect(tree.values()).toStrictEqual([2])
 
 })
+
+test("levelOrderForEach throws Error if called without a callback function", () => {
+    expect(() => {
+        const tree = new Tree([1,2,3])
+        tree.levelOrderForEach("abc")
+    }).toThrow(Error)
+
+});

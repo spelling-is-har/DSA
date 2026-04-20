@@ -62,6 +62,11 @@ export class Tree {
             this.root = deleteValue(this.root, value)   
         }
     }
+    levelOrderForEach(callback) {
+        if (typeof callback != "function") {
+            throw new Error("levelOrderFunction only accepts callback functions")
+        }
+    }
 }
 
 function deleteValue(root, value) {
