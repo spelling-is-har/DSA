@@ -21,7 +21,7 @@ class Node {
 export class Tree {
     constructor(arr) {
         if (Array.isArray(arr) === false) {
-            throw new Error("Tree ust be initialised with an array")
+            throw new Error("Tree must be initialised with an array")
         }
         this.root = this.#buildTree(arr)
     }
@@ -108,10 +108,35 @@ export class Tree {
         if (this.root == null) return undefined
         return getHeight(this.root, value)    
     }
+    isBalanced() {
+        const left = isTreeBalanced(this.root.left)
+        const right = isTreeBalanced(this.root.right)
+
+        let difference = 0
+
+        if (left >= right) {
+            difference = left - right
+        } else {
+            difference = right - left
+        }
+        return difference <= 1 ? true : false
+    }
+    rebalance() {
+        const valueArr = this.values()
+        this.root = this.#buildTree(valueArr)
+    }
 }
 
-// const tree = new Tree([1,2,3,4,5,6,7,8,9,10,11,12,13])
-// tree.print()
+
+function isTreeBalanced(root) {
+    if (root === null) return 0
+
+    //get the height of the left and right subtrees
+    const left = isTreeBalanced(root.left)
+    const right = isTreeBalanced(root.right)
+
+    return Math.max(left, right) + 1
+}
 
 
 function getHeightAfterMatch(root) {
@@ -176,9 +201,9 @@ function inOrderForEachFunction(root, callback) {
     //base case if root is null
     if (root === null) return
 
-    preOrderForEachFunction(root.left, callback)
+    inOrderForEachFunction(root.left, callback)
     root.value = callback(root.value)
-    preOrderForEachFunction(root.right, callback)
+    inOrderForEachFunction(root.right, callback)
 
     return
 }

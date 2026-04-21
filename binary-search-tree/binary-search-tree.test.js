@@ -1,5 +1,5 @@
 import { Tree, sanitiseArr } from "./binary-search-tree.js";
-import {jest} from '@jest/globals'
+import {expect, jest} from '@jest/globals'
 
 test("HashMap is defined", () => {
   expect(Tree).toBeDefined();
@@ -326,7 +326,79 @@ test("height() returns 1 if there is a height of 1 ", () => {
     expect(tree.height(2)).toBe(1)
 })
 
-test("height() returns 1 if there is a height of 1 ", () => {
+test("height() returns 2 if there is a height of 2 ", () => {
     const tree = new Tree([1,2,3,4,5,6,7,8,9,10,11,12,13])
     expect(tree.height(10)).toBe(2)
+})
+
+test("isBalanced returns true on a BST of size 1", () => {
+    const tree = new Tree([1])
+    expect(tree.isBalanced()).toBe(true)
+})
+
+test("isBalanced returns true with a node height difference of 1", () => {
+    const tree = new Tree([1,2,3,4,5,6,7,8,9,10,11,12,13])
+    tree.insert(14)
+    expect(tree.isBalanced()).toBe(true)
+})
+
+test("isBalanced returns false on a BST that is unbalanced", () => {
+    const tree = new Tree([1,2,3])
+    tree.insert(4)
+    tree.insert(5)
+    tree.insert(6)
+    tree.insert(7)
+
+    expect(tree.isBalanced()).toBe(false)
+})
+
+test("rebalance() does not alter any values in the BST", () => {
+
+    const tree = new Tree([1,2,3,4,5,6,7])
+
+    tree.rebalance()
+    expect(tree.values()).toStrictEqual([1,2,3,4,5,6,7])
+})
+
+test("rebalance() keeps a BST balanced if the original is balanced", () => {
+
+    const tree = new Tree([1,2,3,4,5,6,7])
+    expect(tree.isBalanced()).toBe(true)
+    tree.rebalance()
+    expect(tree.isBalanced()).toBe(true)
+})
+
+test("rebalance() will rebalance an unbalanced BST", () => {
+
+    const tree = new Tree([1,2,3,4,5,6,7])
+    tree.insert(8)
+    tree.insert(9)
+    tree.insert(10)
+    expect(tree.isBalanced()).toBe(false)
+    tree.rebalance()
+    expect(tree.isBalanced()).toBe(true)
+})
+
+
+test("unbalancing the tree, then rebalancing the tree with large inputs", () => {
+    function getRandomInt() {
+        return Math.floor(Math.random() * 99)
+    }
+
+    let arr = []
+
+    for (let i = 0; i < 100; i++) {
+        const number = getRandomInt()
+        arr.push(number)
+    }
+
+    const tree = new Tree(arr)
+    expect(tree.isBalanced()).toBe(true)
+
+    for (let i = 100; i < 110; i++) {
+        tree.insert(i)
+    }
+    expect(tree.isBalanced()).toBe(false)
+    tree.rebalance()
+    expect(tree.isBalanced()).toBe(true)
 })
