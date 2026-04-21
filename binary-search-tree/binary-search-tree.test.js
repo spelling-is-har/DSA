@@ -311,7 +311,7 @@ test("depth() returns 1 if the value has a depth of 1", () => {
     expect(tree.depth(3)).toBe(1)
 })
 
-test("depth() returns 1 if the value has a depth of 1", () => {
+test("depth() returns 3 if the value has a depth of 3", () => {
     const tree = new Tree([1,2,3,4,5,6,7,8,9,10,11,12,13])
     expect(tree.depth(13)).toBe(3)
 })
