@@ -1,3 +1,4 @@
+
 const board = []
 
 for (let i = 0; i < 8; i++) {
@@ -37,27 +38,41 @@ export function getValidMoves(start) {
     return moves
 }
 
+function makePath(end, obj) {
+    const arr = [end]
+    let index = end
+    while (obj[index] != null) {
+        arr.push(obj[index])
+        index = obj[index][0].toString() + "," + obj[index][1].toString()
+    }
+    return arr
+}
+
 function findKnightsShortestPath(start, end){
 
     //case that the start location is already the correct location
     if (start === end) return start
 
     const movesMade = {}
-    movesMade[start] = true
+    movesMade[start] = null
 
     const queue = []
     queue.push(start)
+    let prevMove = null
+
 
     while (queue.length > 0) {
-        movesMade[queue[0]] = true
+
         if (queue[0][0] === end[0] && queue[0][1] === end[1]) {
-            return Object.keys(movesMade)
+            return makePath(end, movesMade)
         }
 
         const arr = [...getValidMoves(queue[0])]
+        prevMove = queue[0]
 
         arr.forEach((element) => {
-            if (movesMade[element] != true) {
+            if (movesMade[element] === undefined) {
+                movesMade[element] = prevMove
                 queue.push(element)
             }
         })
@@ -66,6 +81,12 @@ function findKnightsShortestPath(start, end){
     }
 }
 
-const moves = findKnightsShortestPath([0,0], [7,7])
+function printMoves(arr) {
+    console.log(`You made it in ${arr.length} moves! Here's your path:`)
 
-console.log(moves)
+    for (let i = arr.length -1; i >= 0; --i) {
+        console.log(arr[i])
+    }
+}
+
+printMoves(findKnightsShortestPath([6,7], [1,2]))
